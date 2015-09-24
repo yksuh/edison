@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ScienceAppEngineWS" default="build" basedir=".">
+	<target name ="build">
+		<war destfile="ScienceAppEngineWS.war" webxml="WebContent/WEB-INF/web.xml">
+		  <!--<fileset dir="src/html/myapp"/>-->
+		  <!--<fileset dir="src/jsp/myapp"/>-->
+		  <lib dir="WebContent/WEB-INF/lib" />
+		    <!--<exclude name="jdbc1.jar"/>
+		  </lib>-->
+		 <classes dir="WebContent/WEB-INF/classes"/>
+		 <fileset dir = "WebContent">
+		      <include name = "**/*.*"/>
+		  </fileset>
+		</war>
+		<copy todir="${exec_dir}" >  
+	        <fileset dir="." includes="*.war"/>  
+	 	</copy>
+	</target>
+</project>

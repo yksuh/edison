@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="WebApp_ID" version="3.0">
+	<display-name>ScienceAppEngineWS</display-name>
+	<!-- <context-param> <description>Location to store uploaded file</description> 
+		<param-name>file-upload</param-name> <param-value>/usr/local/apache-tomcat-7.0.63/webapps/data 
+		</param-value> </context-param> -->
+	<servlet>
+		<servlet-name>ScienceAppEngineWS</servlet-name>
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+		<!-- Register resources and providers under com.vogella.jersey.first package. -->
+		<init-param>
+			<param-name>jersey.config.server.provider.packages</param-name>
+			<param-value>com.kisti.scienceappengine</param-value>
+		</init-param>
+		<init-param>
+	    	<param-name>jersey.config.server.provider.classnames</param-name>
+    		<param-value>org.glassfish.jersey.filter.LoggingFilter;org.glassfish.jersey.media.multipart.MultiPartFeature</param-value>
+		</init-param>
+
+		<!-- <init-param>
+			<param-name>jersey.config.server.provider.packages</param-name>
+			<param-value>com.jersey.series.upload.download.service</param-value>
+		</init-param>
+		<init-param>
+			<param-name>jersey.config.server.provider.classnames</param-name>
+			<param-value>org.glassfish.jersey.media.multipart.MultiPartFeature</param-value>
+		</init-param>-->
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ScienceAppEngineWS</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+	<!-- <welcome-file-list> <welcome-file>index.html</welcome-file> </welcome-file-list> -->
+</web-app> 
