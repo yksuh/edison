@@ -445,8 +445,8 @@ public abstract class GeneralDBMS {
 
 		// Executing the SQL to create the table
 		try {
-//			ScienceAppEngine._logger.outputLog("sql to create table: "
-//					+ createTable);
+			ScienceAppEngine._logger.outputLog("sql to create table: "
+					+ createTable);
 			System.out.println("sql to create table: " + createTable);
 			_statement.executeUpdate(createTable);
 			commit();

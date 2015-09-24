@@ -133,7 +133,24 @@ public class MySQLSubject extends GeneralDBMS {
 	 * FOREIGN KEY (SolverID)
 	 * REFERENCES EDADD_SOLVER(ID) ); 
 	 * INSERT INTO EDAPP_SOLVER_TEST (SolverID, TestStatus) values (1, 'Test Started'); 
-	 * UPDATE EDAPP_SOLVER_TEST SET TestStatus = 'Library Installation';
+	 * INSERT INTO EDAPP_SOLVER_TEST_LOG (2, 'Library Installation');
+	 * 
+	 * CREATE TABLE EDAPP_SOLVER ( ID INT AUTO_INCREMENT NOT NULL, 
+	 * 								Title VARCHAR(100) NOT NULL, 
+	 * 								Name VARCHAR(255), 
+	 * 								Description VARCHAR(4000), 
+	 * 								PRIMARY KEY(ID))
+	 * CREATE TABLE EDAPP_SOLVER_TEST ( TestID INT AUTO_INCREMENT NOT NULL, 
+	 * 									ID INT NOT NULL, 
+	 * 									TestStartTime TIMESTAMP default current_timestamp  NOT NULL, 
+	 * 									PRIMARY KEY(TestID), UNIQUE(ID, TestStartTime), 
+	 * 									FOREIGN KEY(ID) REFERENCES EDAPP_SOLVER (ID) ON DELETE CASCADE)
+	 * CREATE TABLE EDAPP_SOLVER_TEST_LOG ( TestID INT NOT NULL, 
+	 * 										TestStatusUpdateTime TIMESTAMP default current_timestamp  NOT NULL, 
+	 * 										TestStatus VARCHAR(4000) NOT NULL, 
+	 * 										PRIMARY KEY(TestID, TestStatusUpdateTime), 
+	 * 										FOREIGN KEY(TestID) REFERENCES EDAPP_SOLVER_TEST (TestID) ON DELETE CASCADE)
+	 *
 	 * 
 	 */
 }

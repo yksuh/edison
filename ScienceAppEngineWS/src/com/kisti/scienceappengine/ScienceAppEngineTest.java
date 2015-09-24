@@ -73,7 +73,7 @@ public class ScienceAppEngineTest {
 		sae.disconnectToDB();
 	}
 	
-	@Test
+	//@Test
 	public void testCreateTables(){
 		ScienceAppEngine sae = new ScienceAppEngine(true);
 		sae.createTestTables();

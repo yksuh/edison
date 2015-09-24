@@ -602,7 +602,6 @@ System.out.println("output: " + line);
 							SOLVER_TEST_LOG.primaryKey, 
 							SOLVER_TEST_LOG.foreignKey);
 		mysqlDBMS.commit();
-		
 //disconnectToDB();
 	}
 	
@@ -620,7 +619,9 @@ System.out.println("output: " + line);
 		
 		String[] colNames = {"title", "name", "description"};
 		String[] colValues = {title, name, description};
-		int[] colTypes = {GeneralDBMS.I_DATA_TYPE_VARCHAR, GeneralDBMS.I_DATA_TYPE_VARCHAR};
+		int[] colTypes = {GeneralDBMS.I_DATA_TYPE_VARCHAR,
+						  GeneralDBMS.I_DATA_TYPE_VARCHAR, 
+						  GeneralDBMS.I_DATA_TYPE_VARCHAR};
 		
 		/****
 		 * Insert a row into SOLVER.
@@ -659,8 +660,60 @@ System.out.println("output: " + line);
 									 testColNames, 
 									 testColValues, 
 									 testColTypes);
+		}	
+		
+		
+		String test_sql = "select testID, testStartTime"
+						  + " from " + SOLVER_TEST.TableName 
+						  + " where ID = " + solverID;
+		int testID = -1;
+		rs = mysqlDBMS.executeQuery(test_sql);
+		if(rs != null){
+			try {
+				while(rs.next()){
+					testID = rs.getInt(1);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
+		String status =  "Test Started";
+		// if solver id is returned, then do the following.
+		if(testID != -1){
+			String[] testColNames = {"TestID", "TestStatus"};
+			String[] testColValues = {Integer.toString(solverID), status};
+			int[] testColTypes = {GeneralDBMS.I_DATA_TYPE_NUMBER, 
+								  GeneralDBMS.I_DATA_TYPE_VARCHAR};
+			
+			/****
+			 * Insert a row into SOLVER TEST.
+			 */
+			mysqlDBMS.buildInsertSQL(SOLVER_TEST_LOG.TableName, 
+									 testColNames, 
+									 testColValues, 
+									 testColTypes);
+		}	
+		
+		String updateTime = "";
+		status = "";
+		String testLogSQL = "select * "
+						  + " from " + SOLVER_TEST_LOG.TableName
+						  + " order by testID asc, TestStatusUpdateTime desc";
+		rs = mysqlDBMS.executeQuery(testLogSQL);
+		if(rs != null){
+			try {
+				while(rs.next()){
+					testID = rs.getInt(1);
+					
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
 // Disconnect a connection to DB after finishing some work.
 //disconnectToDB();
 	}
@@ -720,11 +773,12 @@ System.out.println(sql);
 			connectToDB();
 		}
 		
+		// then, drop solver table.
+		mysqlDBMS.dropTable(SOLVER_TEST_LOG.TableName);
 		// first drop solver test table.
 		mysqlDBMS.dropTable(SOLVER_TEST.TableName);
 		// then, drop solver table.
 		mysqlDBMS.dropTable(SOLVER.TableName);
-		
 		// disconnect to DB.
 		//disconnectToDB();
 	}
