@@ -312,9 +312,9 @@ public class ScienceAppEngine {
 	 * ScienceAppEngine constructor for JUnit test
 	 */
 	public ScienceAppEngine(boolean UNDER_TEST) {
-		if(!UNDER_TEST){
-			setScienceAppEngineLogger(Constants.SCIENCE_APP_ENGINE);
-		}
+//		if(!UNDER_TEST){
+//			setScienceAppEngineLogger(Constants.SCIENCE_APP_ENGINE);
+//		}
 
 		// connect to DB
 		connectToDB();
@@ -379,7 +379,7 @@ public class ScienceAppEngine {
 	@Produces(MediaType.TEXT_HTML)
 	// @PathParam injects the value of URI parameter that defined in @Path
 	// expression, into the method.
-	public Response testScienceApp(
+	public Response doScienceAppTesting(
 			@FormDataParam("app_title") String app_title,
 			@FormDataParam("app_binary") InputStream uploadedInputStream,
 	        @FormDataParam("app_binary") FormDataContentDisposition fileDetail,
@@ -733,7 +733,8 @@ System.out.println("output: " + line);
 				  + " from " + SOLVER.TableName + " as t0, " + SOLVER_TEST.TableName + " as t1 "
 				  + " where t0.ID = t1.ID"
 				  + " order by t1.TestStartTime asc";
-System.out.println(sql);
+		ScienceAppEngine._logger.outputLog(sql);
+		System.out.println(sql);
 
 		int solverID = -1;
 		String title = "";
@@ -744,7 +745,9 @@ System.out.println(sql);
 		ResultSet rs = mysqlDBMS.executeQuery(sql);
 		if(rs != null){
 			try {
-				System.out.println("ID | Title | TestStartTime | Test Status | Test Status Update Time");
+				String tblHead = "ID | Title | TestStartTime | Test Status | Test Status Update Time";
+				//ScienceAppEngine._logger.outputLog(tblHead);
+				System.out.println(tblHead);
 				while(rs.next()){
 					solverID = rs.getInt(1);
 					title = rs.getString(2);

@@ -14,10 +14,6 @@ public class Constants {
 	 * Science App Engine web service name
 	 */
 	public static final String SCIENCE_APP_ENGINE = "ScienceAppEngine";
-//	/***
-//	 * Tomcat Installation Directory
-//	 */
-//	public static final String TOMCAT_LOCATION="/usr/local/apache-tomcat-7.0.63/";
 	/***
 	 * Tomcat Installation Directory on the development server
 	 */

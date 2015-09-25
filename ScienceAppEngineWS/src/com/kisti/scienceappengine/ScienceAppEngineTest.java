@@ -14,7 +14,7 @@ public class ScienceAppEngineTest {
 
 	//@Test
 	public void testListModules() {
-//		fail("Not yet implemented");
+	//	fail("Not yet implemented");
 		ScienceAppEngine sae = new ScienceAppEngine();
 		sae.listModules();
 	}
@@ -52,7 +52,7 @@ public class ScienceAppEngineTest {
 	//@Test
 	public void testScienceApp() {
 		ScienceAppEngine sae = new ScienceAppEngine(true);
-		sae.testScienceApp("calculator", null, null, null, null);
+		sae.doScienceAppTesting("calculator", null, null, null, null);
 	}
 	
 	//@Test
@@ -87,7 +87,7 @@ public class ScienceAppEngineTest {
 		sae.disconnectToDB();
 	}
 	
-	//@Test
+	@Test
 	public void testRetrieveTestStatus() {
 		ScienceAppEngine sae = new ScienceAppEngine(true);
 		sae.retrieveStatusForSolverInTest();
