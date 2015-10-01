@@ -18,6 +18,7 @@ public class Constants {
 	 * Tomcat Installation Directory on the development server
 	 */
 	public static final String TOMCAT_LOCATION="/usr/local/apache-tomcat-7.0.64/";
+	//public static final String TOMCAT_LOCATION="/usr/local/apache-tomcat-7.0.63/";
 	/***
 	 * Webapp Directory
 	 */

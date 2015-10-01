@@ -417,65 +417,117 @@ System.out.println("science input file name: " + scienceAppInputFileName);
         // save this science app file
         saveToFile(uploadedInputStream, scienceAppPath);
         
-		// Specify a directory to store an uploaded Science App file.
+        // change permission for execute
+		changeExecPermission("x", scienceAppPath);
+     	
+        // Specify a directory to store an uploaded Science App file.
         String scienceAppInputFilePath = Constants.SCIENCE_APP_INPUT_FILE_LOCATION + scienceAppInputFileName;
         //System.out.println(uploadedFileLocation);
         
         // save this science app file
         saveToFile(uploadedInputStream2, scienceAppInputFilePath);
-        try{
-        	File execFile = new File(scienceAppPath);
-        	execFile.setExecutable(true);
-System.out.println(scienceAppPath + " has been granted for executable.");
-        }catch(Exception ex){
-        	System.err.println(ex.getMessage());
-        }
+//        try{
+//        	File execFile = new File(scienceAppPath);
+//        	execFile.setExecutable(true);
+//System.out.println(scienceAppPath + " has been granted for executable.");
+//        }catch(Exception ex){
+//        	System.err.println(ex.getMessage());
+//        }
         
         String solverName = "science app engine sample solver";
         String solverDescription = "science app engine is being tested.";
         
         // Insert a test status message into the solver table.
      	insertRowsIntoTables(app_title, solverName, solverDescription);
-     		
-     		
+     	
         // Submit a job related to this science app.
         // Read the output.
         // We need to invoke Icebreaker's job management routine.
-        String scienceAppOutputFilePath = Constants.SCIENCE_APP_OUTPUT_FILE_LOCATION + "output.txt";
-        String value = submitJob(scienceAppPath, 
-        						 scienceAppInputFilePath, 
-        						 scienceAppOutputFilePath);     
+        //String scienceAppOutputFilePath = Constants.SCIENCE_APP_OUTPUT_FILE_LOCATION + "output.txt";
+     	String scienceAppOutputFileName = "output.txt";
+        String value = submitJob(scienceAppFileName, 
+        						 scienceAppInputFileName, 
+        						 scienceAppOutputFileName);     
 		
-		if(value.equalsIgnoreCase("") || value == null){
-			return Response.status(200).entity("<html>" + scienceAppPath + " has no output, which seems problematic.</html>").build();
+		if(value.contains("error")){
+			return Response.status(200).entity("<html>" + scienceAppPath + " has no output, which seems problematic ("+value+"</html>").build();
 		}
 		else{
-			return Response.status(200).entity("<html>final output: "+ value +"</html>").build();
+			String response = "<a href=\""+value+"\">result</a>";
+			System.out.println(response);
+			return Response.status(200).entity("<html>"+response+"</html>").build();
 		}
         // Show a successful message.
         //return Response.status(200).entity("<html>Successfully saved '"+scienceAppPath+"' and '" + scienceAppInputFilePath +"'</html>").build();
 	}
 
-	/****
-	 * Submit a job related to a given science app.
-	 * @param sciAppFilePath science app file path
-	 * @param sciAppInputFilePath science app input file path
-	 * @param sciAppOutputFilePath science app output file path
-	 * @return final execution result value
+	/*****
+	 * Give execute permission to a given solver executable file
+	 * @param filePath solver location 
 	 */
-	public String submitJob(String sciAppFilePath, 
-							String sciAppInputFilePath,
-							String sciAppOutputFilePath) {
+	private void changeExecPermission(String permission, String filePath) {
+		// TODO Auto-generated method stub
 		// change permission to the uploaded science app for execute
-        //String command = "sudo chmod +x " + scienceAppPath + "; ";
-        String command = sciAppFilePath + " " + sciAppInputFilePath;
-		//String command = "module list";
-		try {
+        String command = "sudo chmod +"+permission+" " + filePath;
+        try {
 			// Create a Runtime instance.
 			Runtime rt = Runtime.getRuntime();
 			// Execute the command.
 			Process p1 = rt.exec(command);
 System.out.println(command);
+			// Read the input stream.
+			InputStream instd = p1.getInputStream();
+			// Create a buffered reader
+			BufferedReader buf_reader = new BufferedReader(
+					new InputStreamReader(instd));
+			// Declare a temporary variable to contain a line. 
+			String line = "";
+			// Declare a temporary variable to store a line count.
+			// Begin to read each line from given output (or given file).
+			while ((line = buf_reader.readLine()) != null) {
+				// Increment line count.
+				//System.out.println(line);
+			}
+			// Close the buffered reader instance.
+			buf_reader.close();
+			// Let's wait for the Runtime instance to be done.
+			p1.waitFor();
+			
+			InputStream errstd = p1.getErrorStream();
+		    BufferedReader buf_err_reader = new BufferedReader(new InputStreamReader(errstd));
+		    while ((line = buf_err_reader.readLine()) != null) {  
+		    	System.err.println(line);
+		    }
+		    buf_err_reader.close();
+		} catch (Exception ex) {
+			// ex.printStackTrace();
+			// Print out any message when an error(s) occurs.
+			System.err.println(ex.getMessage());
+		}      
+	}
+
+	/****
+	 * Submit a job related to a given science app.
+	 * @param sciAppFileName science app file name
+	 * @param sciAppInputFileName science app input file name
+	 * @param sciAppOutputFileName science app output file name
+	 * @return final execution result value
+	 */
+	public String submitJob(String sciAppFileName, 
+							String sciAppInputFileName,
+							String sciAppOutputFileName) {
+		// move into the science app test directory
+//		
+//		String command = "sudo cd " + Constants.SCIENCE_APP_LOCATION + "; ";
+		// execute the given science app
+        String exec = "./" + sciAppFileName + " " + sciAppInputFileName;
+		String[] cmd = { "/bin/sh", "-c", "cd "+Constants.SCIENCE_APP_LOCATION+"; "+exec};
+System.out.println("exec:" + cmd[2]);
+		try {
+			// Create a Runtime instance.
+			Runtime rt = Runtime.getRuntime();
+			// Execute the command.
+			Process p1 = rt.exec(cmd);
 			// Read the input stream.
 			InputStream instd = p1.getInputStream();
 			// Create a buffered reader
@@ -510,7 +562,8 @@ System.out.println(command);
 		// output check
 		String line = "";
 		String value = "";
-		command = "cat " + sciAppOutputFilePath;
+		String outputFilePath = Constants.SCIENCE_APP_OUTPUT_FILE_LOCATION + sciAppOutputFileName;
+		String command = "cat " + outputFilePath;
         //String command = "module list";
 		try {
 			// Create a Runtime instance.
@@ -536,9 +589,13 @@ System.out.println("output: " + line);
 			// ex.printStackTrace();
 			// Print out any message when an error(s) occurs.
 			System.err.println(ex.getMessage());
+			return "error: " + ex.getMessage();
 		} 
 		
-		return value;
+		// change permission for execute
+		changeExecPermission("x", outputFilePath);
+		
+		return Constants.SCIENCE_APP_OUTPUT_FILE_LOCATION + sciAppOutputFileName;
 	}
 
 	/****
@@ -729,11 +786,11 @@ System.out.println("output: " + line);
 			connectToDB();
 		}
 		
-		String sql = "select t0.ID, t0.Title, t1.TestStartTime, t1.TestStatus, t1.TestStatusUpdateTime " + SOLVER.columnNames[0] 
-				  + " from " + SOLVER.TableName + " as t0, " + SOLVER_TEST.TableName + " as t1 "
-				  + " where t0.ID = t1.ID"
+		String sql = "select t0.Title as solver_title, t1.TestStartTime, t2.TestStatus, t2.TestStatusUpdateTime " + SOLVER.columnNames[0] 
+				  + " from " + SOLVER.TableName + " as t0, " + SOLVER_TEST.TableName + " as t1, " + SOLVER_TEST_LOG.TableName + " as t2 "
+				  + " where t0.ID = t1.ID and t1.TestID = t2.TestID"
 				  + " order by t1.TestStartTime asc";
-		ScienceAppEngine._logger.outputLog(sql);
+		//ScienceAppEngine._logger.outputLog(sql);
 		System.out.println(sql);
 
 		int solverID = -1;
@@ -745,7 +802,7 @@ System.out.println("output: " + line);
 		ResultSet rs = mysqlDBMS.executeQuery(sql);
 		if(rs != null){
 			try {
-				String tblHead = "ID | Title | TestStartTime | Test Status | Test Status Update Time";
+				String tblHead = "ID | Title | Test Start Time | Test Status | Test Status Update Time";
 				//ScienceAppEngine._logger.outputLog(tblHead);
 				System.out.println(tblHead);
 				while(rs.next()){
@@ -763,9 +820,6 @@ System.out.println("output: " + line);
 		}else{
 			System.out.println("no output.");
 		}
-		
-		
-		
 // Disconnect a connection to DB after finishing some work.
 //disconnectToDB();
 	}

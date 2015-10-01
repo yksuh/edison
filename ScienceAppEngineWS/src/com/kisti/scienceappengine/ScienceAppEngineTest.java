@@ -55,7 +55,7 @@ public class ScienceAppEngineTest {
 		sae.doScienceAppTesting("calculator", null, null, null, null);
 	}
 	
-	//@Test
+	@Test
 	public void testSubmitJob() {
 		ScienceAppEngine sae = new ScienceAppEngine(true);
 		sae.submitJob(Constants.TEST_SCIAPP_DIR+"a.out", Constants.TEST_SCIAPP_DIR +"input.txt", Constants.TEST_SCIAPP_OUTPUT_DIR+"output.txt");
@@ -87,7 +87,7 @@ public class ScienceAppEngineTest {
 		sae.disconnectToDB();
 	}
 	
-	@Test
+	//@Test
 	public void testRetrieveTestStatus() {
 		ScienceAppEngine sae = new ScienceAppEngine(true);
 		sae.retrieveStatusForSolverInTest();
