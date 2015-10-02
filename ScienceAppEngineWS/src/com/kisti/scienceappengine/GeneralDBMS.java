@@ -521,6 +521,13 @@ public abstract class GeneralDBMS {
 		}
 		insertSQL += ")";
 		System.out.println(insertSQL);
+		
+		try{
+			_statement.executeUpdate(insertSQL);
+			commit();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
 		return insertSQL;
 	}
 

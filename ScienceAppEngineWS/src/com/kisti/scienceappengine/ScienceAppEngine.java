@@ -194,7 +194,7 @@ public class ScienceAppEngine {
 	public static final InternalTable SOLVER = new InternalTable(
 			Constants.TABLE_PREFIX + Constants.TABLE_SOLVER,
 			new String[] { 
-					"ID", 			// solver id
+					"SolverID", 			// solver id
 					"Title",		// solver title
 					"Name",			// solver name
 					"Description"	// solver description
@@ -208,8 +208,8 @@ public class ScienceAppEngine {
 			new int[] {10, 100, 255, 4000}, // column lengths
 			new int[] {1,0,0,0}, // auto increment column index
 			new int[] {0,0,1,1}, // nullable column index
-			null, 				 // unique
-			new String[] {"ID" },// primary key
+			new String[] {"Title"},// unique
+			new String[] {"SolverID" },// primary key
 			null,				 // foreign key
 			"" // sequence name
 	);
@@ -222,7 +222,7 @@ public class ScienceAppEngine {
 			Constants.TABLE_PREFIX + Constants.TABLE_SOLVER_TEST,
 			new String[] { 
 					"TestID",			// test id (surrogate key)
-					"ID", 				// solver id
+					"SolverID", 				// solver id
 					"TestStartTime"		// test start time
 			},
 			new int[] { 
@@ -233,13 +233,13 @@ public class ScienceAppEngine {
 			new int[] {0, 0, 0}, 	// column lengths
 			new int[] {1, 0, 0}, 	// auto increment column index
 			new int[] {0, 0, 0}, 	// nullable column index
-			new String[] {"ID", "TestStartTime"},// unique
+			new String[] {"SolverID", "TestStartTime"},// unique
 			new String[] {"TestID"},// primary key
 			new ForeignKey[] { 
 					new ForeignKey(
-							new String[] { "ID" }, 
+							new String[] { "SolverID" }, 
 							Constants.TABLE_PREFIX + Constants.TABLE_SOLVER, 
-							new String[] { "ID" }, 
+							new String[] { "SolverID" }, 
 							" ON DELETE CASCADE") 
 			},				 					 // foreign key
 			""		 // sequence name
@@ -253,20 +253,22 @@ public class ScienceAppEngine {
 	public static final InternalTable SOLVER_TEST_LOG  = new InternalTable(
 			Constants.TABLE_PREFIX + Constants.TABLE_SOLVER_TEST_LOG,
 			new String[] { 
+					"LogID",				// test log id
 					"TestID", 				// solver test id
-					"TestStatusUpdateTime",	// test status update time
-					"TestStatus"			// test status
+					"TestStatus",			// test status
+					"TestStatusUpdateTime"	// test status update time
 			},
 			new int[] { 
 					GeneralDBMS.I_DATA_TYPE_NUMBER,
-					GeneralDBMS.I_DATA_TYPE_TIMESTAMP_DEFAULT_CURRENT,
-					GeneralDBMS.I_DATA_TYPE_VARCHAR
+					GeneralDBMS.I_DATA_TYPE_NUMBER,
+					GeneralDBMS.I_DATA_TYPE_VARCHAR,
+					GeneralDBMS.I_DATA_TYPE_TIMESTAMP_DEFAULT_CURRENT
 			}, 
-			new int[] {0, 0, 4000}, // column lengths
-			new int[] {0, 0, 0}, // auto increment column index
-			new int[] {0, 0, 0}, // nullable column index
-			null, 				 // unique
-			new String[] {"TestID", "TestStatusUpdateTime"},// primary key
+			new int[] {0, 0, 4000, 0}, // column lengths
+			new int[] {1, 0, 0, 0}, // auto increment column index
+			new int[] {0, 0, 0, 0}, // nullable column index
+			new String[] {"TestID", "TestStatusUpdateTime"},// unique 
+			new String[] {"LogID"},//primary key 
 			new ForeignKey[] { 
 					new ForeignKey(
 							new String[] { "TestID" }, 
@@ -662,6 +664,13 @@ System.out.println("output: " + line);
 //disconnectToDB();
 	}
 	
+	/****
+	 * Perform a re-test on the pre-existing solver
+	 */
+	public void doReTest(){
+		
+	}
+	
 	/***
 	 * Insert test rows into tables
 	 */
@@ -698,6 +707,7 @@ System.out.println("output: " + line);
 				while(rs.next()){
 					solverID = rs.getInt(1);
 				}
+				rs.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -706,9 +716,9 @@ System.out.println("output: " + line);
 		
 		// if solver id is returned, then do the following.
 		if(solverID != -1){
-			String[] testColNames = {"SolverID", "TestStatus"};
-			String[] testColValues = {Integer.toString(solverID), "Test Started"};
-			int[] testColTypes = {GeneralDBMS.I_DATA_TYPE_NUMBER, GeneralDBMS.I_DATA_TYPE_VARCHAR};
+			String[] testColNames = {"SolverID"};
+			String[] testColValues = {Integer.toString(solverID)};
+			int[] testColTypes = {GeneralDBMS.I_DATA_TYPE_NUMBER};
 			
 			/****
 			 * Insert a row into SOLVER TEST.
@@ -718,59 +728,44 @@ System.out.println("output: " + line);
 									 testColValues, 
 									 testColTypes);
 		}	
-		
-		
-		String test_sql = "select testID, testStartTime"
-						  + " from " + SOLVER_TEST.TableName 
-						  + " where ID = " + solverID;
+				
+		// retrieve testID
+		sql = "select TestID "
+		  + " from " + SOLVER_TEST.TableName 
+		  + " where SolverID = " + solverID
+		  + " order by testStartTime desc";
 		int testID = -1;
-		rs = mysqlDBMS.executeQuery(test_sql);
+		rs = mysqlDBMS.executeQuery(sql);
 		if(rs != null){
 			try {
 				while(rs.next()){
 					testID = rs.getInt(1);
+					break;
 				}
+				rs.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		
-		String status =  "Test Started";
-		// if solver id is returned, then do the following.
+		}		
+				
+		// if test id is returned, record test status.
 		if(testID != -1){
+			String status =  "Test Started";
+			// if solver id is returned, then do the following.
 			String[] testColNames = {"TestID", "TestStatus"};
-			String[] testColValues = {Integer.toString(solverID), status};
+			String[] testColValues = {Integer.toString(testID), status};
 			int[] testColTypes = {GeneralDBMS.I_DATA_TYPE_NUMBER, 
 								  GeneralDBMS.I_DATA_TYPE_VARCHAR};
 			
 			/****
-			 * Insert a row into SOLVER TEST.
+			 * Insert a row into SOLVER TEST LOG.
 			 */
 			mysqlDBMS.buildInsertSQL(SOLVER_TEST_LOG.TableName, 
 									 testColNames, 
 									 testColValues, 
 									 testColTypes);
 		}	
-		
-		String updateTime = "";
-		status = "";
-		String testLogSQL = "select * "
-						  + " from " + SOLVER_TEST_LOG.TableName
-						  + " order by testID asc, TestStatusUpdateTime desc";
-		rs = mysqlDBMS.executeQuery(testLogSQL);
-		if(rs != null){
-			try {
-				while(rs.next()){
-					testID = rs.getInt(1);
-					
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
 // Disconnect a connection to DB after finishing some work.
 //disconnectToDB();
 	}
@@ -786,9 +781,9 @@ System.out.println("output: " + line);
 			connectToDB();
 		}
 		
-		String sql = "select t0.Title as solver_title, t1.TestStartTime, t2.TestStatus, t2.TestStatusUpdateTime " + SOLVER.columnNames[0] 
+		String sql = "select t0.SolverID, t0.Title as solver_title, t1.TestStartTime, t2.TestStatus, t2.TestStatusUpdateTime " + SOLVER.columnNames[0] 
 				  + " from " + SOLVER.TableName + " as t0, " + SOLVER_TEST.TableName + " as t1, " + SOLVER_TEST_LOG.TableName + " as t2 "
-				  + " where t0.ID = t1.ID and t1.TestID = t2.TestID"
+				  + " where t0.SolverID = t1.SolverID and t1.TestID = t2.TestID"
 				  + " order by t1.TestStartTime asc";
 		//ScienceAppEngine._logger.outputLog(sql);
 		System.out.println(sql);
@@ -802,7 +797,7 @@ System.out.println("output: " + line);
 		ResultSet rs = mysqlDBMS.executeQuery(sql);
 		if(rs != null){
 			try {
-				String tblHead = "ID | Title | Test Start Time | Test Status | Test Status Update Time";
+				String tblHead = "SolverID | Title | Test Start Time | Test Status | Test Status Update Time";
 				//ScienceAppEngine._logger.outputLog(tblHead);
 				System.out.println(tblHead);
 				while(rs.next()){
@@ -811,7 +806,7 @@ System.out.println("output: " + line);
 					testStartTime = new SimpleDateFormat(Constants.TIMEFORMAT).format(rs.getTimestamp(3));
 					testStatus = rs.getString(4);
 					testStatusUpdateTime = new SimpleDateFormat(Constants.TIMEFORMAT).format(rs.getTimestamp(5)); 
-					System.out.format("%d | %s | %s | %s | %s", solverID, title, testStartTime, testStatus, testStatusUpdateTime);
+					System.out.format("%d | %s | %s | %s | %s\n", solverID, title, testStartTime, testStatus, testStatusUpdateTime);
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
