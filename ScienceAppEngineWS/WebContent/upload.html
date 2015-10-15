@@ -2,10 +2,46 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <body>
-<title>Form Page</title>
+<title>Execution Environment Configuration</title>
 </head>
 <body>
-<h1>Upload a File</h1>
+<h1>Search for All Installed Libraries</h1>
+<form action="rest/SAEServ/library/search" enctype="multipart/form-data" method="post">
+<p>
+<input type="submit" value="Find Installed Libraries">
+</form>
+
+<h1>Search for Libraries Matching a Keyword</h1>
+<form action="rest/SAEServ/library/keyword_search" enctype="multipart/form-data" method="post">
+<p>
+Enter a Keyword: <input type="text" name="libNameKeyword" size="100"> <input type="submit" value="Search">
+</form>
+
+<h1>Search for All Installed Modules</h1>
+<form action="rest/SAEServ/module/list" enctype="multipart/form-data" method="post">
+<p>
+<input type="submit" value="Find Installed Modules">
+</form>
+
+<h1>Search for Modules Matching a Keyword</h1>
+<form action="rest/SAEServ/module/list_by_keyword" enctype="multipart/form-data" method="post">
+<p>
+Enter a Keyword: <input type="text" name="modName" size="100"> <input type="submit" value="Search">
+</form>
+
+<h1>Search for All Available Modules</h1>
+<form action="rest/SAEServ/module/available" enctype="multipart/form-data" method="post">
+<p>
+<input type="submit" value="Find Available Modules">
+</form>
+
+<h1>Load a Module</h1>
+<form action="rest/SAEServ/module/load" enctype="multipart/form-data" method="post">
+<p>
+Enter a Module Name: <input type="text" name="mod_name" size="100"> <input type="submit" value="Load">
+</form>
+
+<h1>Upload a (RPM) File</h1>
 <form action="rest/SAEServ/library/install" enctype="multipart/form-data" method="post">
 <!-- <p>
 Type some text (if you like):<br>

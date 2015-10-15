@@ -855,16 +855,20 @@ System.out.println("output: " + line);
 	 *  * */
 	// @GET here defines, this method will method will process HTTP GET
 	// requests.
-	@GET
-	// @Path here defines method level path. Identifies the URI path that a
-	// resource class method will serve requests for.
-	@Path("/module/list/{mod_name}")
-	// @Produces here defines the media type(s) that the methods
-	// of a resource class can produce.
-	@Produces(MediaType.TEXT_XML)
+//	@GET
+//	// @Path here defines method level path. Identifies the URI path that a
+//	// resource class method will serve requests for.
+//	//@Path("/module/list/{mod_name}")
+//	@Path("/module/list_by_keyword")
+//	// @Produces here defines the media type(s) that the methods
+//	// of a resource class can produce.
+//	@Produces(MediaType.TEXT_XML)
 	// @PathParam injects the value of URI parameter that defined in @Path
 	// expression, into the method.
-	public String retrieveModuleByKeyword(@PathParam("mod_name") String mod_name) {
+	@POST
+	@Path("/module/list_by_keyword")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public String retrieveModuleByKeyword(@FormDataParam("modName") String mod_name) {
 		// We internally invoke retrieveLibrary() and
 		// then search for a library(ies) to contain a given library name
 		// (libname)
@@ -891,16 +895,19 @@ System.out.println("output: " + line);
 
 	// @GET here defines, this method will method will process HTTP GET
 	// requests.
-	@GET
-	// @Path here defines method level path. Identifies the URI path that a
-	// resource class method will serve requests for.
+//	@GET
+//	// @Path here defines method level path. Identifies the URI path that a
+//	// resource class method will serve requests for.
+//	@Path("/module/available")
+//	// @Produces here defines the media type(s) that the methods
+//	// of a resource class can produce.
+//	@Produces(MediaType.TEXT_XML)
+//	// @PathParam injects the value of URI parameter that defined in @Path
+//	// expression, into the method.
+	@POST
 	@Path("/module/available")
-	// @Produces here defines the media type(s) that the methods
-	// of a resource class can produce.
-	@Produces(MediaType.TEXT_XML)
-	// @PathParam injects the value of URI parameter that defined in @Path
-	// expression, into the method.
-	public String showAvailableModules() {
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public Response showAvailableModules() {
 		// declare a vector of modules listed by the command.
 		availModList = new Vector<Module>();
 		// The next two lines should be replaced by the next third line when being in service.
@@ -1015,21 +1022,24 @@ System.out.println("output: " + line);
 		// Let's print it out.
 		System.out.println(finalResList);
 		// Return the XML document.
-		return finalResList;
+		return Response.status(200).entity(finalResList).build();
 	}
 	
 	// @GET here defines, this method will method will process HTTP GET
 	// requests.
-	@GET
-	// @Path here defines method level path. Identifies the URI path that a
-	// resource class method will serve requests for.
+//	@GET
+//	// @Path here defines method level path. Identifies the URI path that a
+//	// resource class method will serve requests for.
+//	@Path("/module/list")
+//	// @Produces here defines the media type(s) that the methods
+//	// of a resource class can produce.
+//	@Produces(MediaType.TEXT_XML)
+//	// @PathParam injects the value of URI parameter that defined in @Path
+//	// expression, into the method.
+	@POST
 	@Path("/module/list")
-	// @Produces here defines the media type(s) that the methods
-	// of a resource class can produce.
-	@Produces(MediaType.TEXT_XML)
-	// @PathParam injects the value of URI parameter that defined in @Path
-	// expression, into the method.
-	public String listModules() {
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public Response listModules() {
 		// declare a vector of modules listed by the command.
 		installedModList = new Vector<Module>();
 		// The next two lines should be replaced by the next third line when being in service.
@@ -1126,21 +1136,24 @@ System.out.println("output: " + line);
 		resList.append("</ModuleList>\n");
 		String finalResList = resList.toString();
 		System.out.println(finalResList);
-		return finalResList;
+		return Response.status(200).entity(finalResList).build();
 	}
 	
 	// @GET here defines, this method will method will process HTTP GET
 	// requests.
-	@GET
-	// @Path here defines method level path. Identifies the URI path that a
-	// resource class method will serve requests for.
-	@Path("/module/load/{mod_name}")
-	// @Produces here defines the media type(s) that the methods
-	// of a resource class can produce.
-	@Produces(MediaType.TEXT_HTML)
+//	@GET
+//	// @Path here defines method level path. Identifies the URI path that a
+//	// resource class method will serve requests for.
+//	@Path("/module/load/{mod_name}")
+//	// @Produces here defines the media type(s) that the methods
+//	// of a resource class can produce.
+//	@Produces(MediaType.TEXT_HTML)
 	// @PathParam injects the value of URI parameter that defined in @Path
 	// expression, into the method.
-	public String loadModuleByKeyword(@PathParam("mod_name") String mod_name) {
+	@POST
+	@Path("/module/load")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public Response loadModuleByKeyword(@FormDataParam("mod_name") String mod_name) {
 		// We internally invoke retrieveLibrary() and
 		// then search for a library(ies) to contain a given library name
 		// (libname)
@@ -1185,7 +1198,7 @@ System.out.println("output: " + line);
 			ex.printStackTrace();
 		}
 		System.out.println(res);
-		return res;
+		return Response.status(200).entity(res).build();
 	}
 		
 /*****
@@ -1194,16 +1207,23 @@ System.out.println("output: " + line);
 	
 	// @GET here defines, this method will method will process HTTP GET
 	// requests.
-	@GET
+	//@GET
 	// @Path here defines method level path. Identifies the URI path that a
 	// resource class method will serve requests for.
-	@Path("/library/search/{libName}")
+	//@Path("/library/search/{libName}")
 	// @Produces here defines the media type(s) that the methods
 	// of a resource class can produce.
-	@Produces(MediaType.TEXT_XML)
+	//@Produces(MediaType.TEXT_XML)
+	@POST
+	@Path("/library/keyword_search/")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	// @PathParam injects the value of URI parameter that defined in @Path
 	// expression, into the method.
-	public String retrieveLibraryByKeyword(@PathParam("libName") String lib_name) {
+	public Response retrieveLibraryByKeyword(@FormDataParam("libNameKeyword") String lib_name) {
+		if(lib_name == null)
+			// Return the final library list string.
+			return Response.status(200).entity("<html>No keyword!</html>").build();
+				
 		// We internally invoke retrieveLibrary() and
 		// then search for a library(ies) to contain a given library name
 		// (libname)
@@ -1229,7 +1249,7 @@ System.out.println("output: " + line);
 		res += "</LibraryList>";
 		System.out.print(res);
 		// Return the final library list string.
-		return res;
+		return Response.status(200).entity(res).build();
 	}
 		
 	@POST
@@ -1354,24 +1374,27 @@ System.out.println(command);
 	// http://localhost:8080/ScienceAppEngineWS/rest/SAEServ/library/search
 	// @GET here defines, this method will method will process HTTP GET
 	// requests.
-	@GET
+	//@GET
 	// @Path here defines method level path. Identifies the URI path that a
 	// resource class method will serve requests for.
-	@Path("/library/search")
+	//@Path("/library/search")
 	// @Produces here defines the media type(s) that the methods
 	// of a resource class can produce.
-	@Produces(MediaType.TEXT_XML)
+	//@Produces(MediaType.TEXT_XML)
 	// @PathParam injects the value of URI parameter that defined in @Path
 	// expression, into the method.
-	public String retrieveLibrary() {
+    @POST
+	@Path("/library/search/")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response retrieveLibrary() {
 		// Initialize the library list vector.
 		libList = new Vector<Library>();
 		//System.out.println("The installed library list has been requested!");
 		// The following two lines should be replaced by the third line when in service.
-		String lib_path = Constants.SAMPLE_LIBRARY_LIST_PATH;
-		String command = "cat " + lib_path;
+		//String lib_path = Constants.SAMPLE_LIBRARY_LIST_PATH;
+		//String command = "cat " + lib_path;
 		// Actual command to retrieve all the library list
-		// String command = "ldconfig -p";
+		String command = "ldconfig -p";
 		try {
 			// Create an instance of Runtime.
 			Runtime rt = Runtime.getRuntime();
@@ -1490,8 +1513,7 @@ System.out.println(command);
 		resList.append("</LibraryList>\n");
 		// Let's print out the final string.
 		String resFinalStr = resList.toString();
-		//System.out.println(resFinalStr);
-		return resFinalStr;
+		return Response.status(200).entity(resFinalStr).build();
 	}
 	
 //	// @GET here defines, this method will method will process HTTP GET

@@ -579,42 +579,4 @@ public abstract class GeneralDBMS {
 		// return result set
 		return rs;
 	}
-
-//	 public void createSequence(String seqName) {
-//		 String createSequence = "CREATE SEQUENCE " + seqName
-//		 + " START WITH 1 NOMAXVALUE";
-//		 try {
-//		 ScienceAppEngine._logger.outputLog("Creating sequence: " + seqName);
-//		 	_statement.execute(createSequence);
-//		 } catch (SQLException e) {
-//			 e.printStackTrace();
-//		 }
-//	 }
-//	
-//	 public void dropSequence(String seqName) {
-//		 String dropSequence = "DROP SEQUENCE " + seqName;
-//		 try {
-//			 ScienceAppEngine._logger.outputLog("Dropping sequence: " + seqName);
-//			 _statement.execute(dropSequence);
-//		 } catch (SQLException e) {
-//			e.printStackTrace();
-//		 }
-//	 }
-//	
-//	 public int getSequencialID(String seqName) {
-//		 String getSeqID = "SELECT " + seqName + ".NEXTVAL FROM DUAL";
-//		 // System.out.println(getSeqID);
-//		 try {
-//			 ResultSet rs = _statement.executeQuery(getSeqID);
-//			 int id = -1;
-//			 if (rs.next()) {
-//				 id = rs.getInt(1);
-//			 }
-//			 rs.close();
-//			 return id;
-//		 } catch (SQLException e) {
-//			 e.printStackTrace();
-//			 return -1;
-//		 }
-//	 }
 }
