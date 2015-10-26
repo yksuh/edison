@@ -155,4 +155,20 @@ public class Constants {
 //			+ "	PRIMARY KEY (SolverID, TestStartTime), "
 //			+ "	FOREIGN KEY (SolverID) REFERENCES EDADD_SOLVER(ID) "
 //			+ ")";
+	/***
+	 * Test Cluster login user name. Later should be passed from EDISON portal.
+	 */
+	public static String CLUSTER_USERNAME = "yksuh";
+	/***
+	 * Test Cluster login password. Later should be passed from EDISON portal.
+	 */
+	public static String CLUSTER_PASSWD = "yksuh";
+	/****
+	 * Icebreaker Access Point
+	 */
+	public static final String IB_ACCESS_PT = "http://150.183.247.211:8080/ldap";
+	/***
+	 * Icebreaker Login API
+	 */
+	public static final String LOGIN_RESTAPI = "api/user/login";
 }
