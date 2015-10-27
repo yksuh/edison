@@ -1,4 +1,0 @@
-2015-08-31 16:39:30,858 INFO  - We start to install module 'gamess/gamess' 
-2015-08-31 16:39:30,859 INFO  - command: module load gamess/gamess 
-2015-08-31 16:39:30,884 INFO  -  
-2015-08-31 16:39:30,885 ERROR - /bin/sh: module: command not found 
