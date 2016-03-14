@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 6.2.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_6_2_0.dtd">
+<service-builder package-path="com.kisti.scienceappstore">
+	<author>yksuh</author>
+	<namespace>EDAPP</namespace>
+
+	<entity name="CommonLibrary" local-service="true">
+
+		<!-- PK fields -->
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long"></column>
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long"></column>
+		<column name="userId" type="long"></column>
+		<column name="userName" type="String"></column>
+		<column name="createDate" type="Date"></column>
+		<column name="modifiedDate" type="Date"></column>
+        <column name="libName" type="String" primary="true"></column>
+        <column name="cLibVer" type="String" primary="false"></column>
+        <column name="sysArch" type="String" primary="true"></column>
+        <column name="kernelVer" type="String"></column>
+        <column name="libPath" type="String"></column>
+	</entity>
+	<entity name="CommonModule" local-service="true">
+
+		<!-- PK fields -->
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long"></column>
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long"></column>
+		<column name="userId" type="long"></column>
+		<column name="userName" type="String"></column>
+		<column name="createDate" type="Date"></column>
+		<column name="modifiedDate" type="Date"></column>
+        <column name="moduleName" type="String" primary="true"></column>
+        <column name="moduleRootDir" type="String" primary="false"></column>
+	</entity>
+	<entity name="CommonPackage" local-service="true">
+
+		<!-- PK fields -->
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long"></column>
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long"></column>
+		<column name="userId" type="long"></column>
+		<column name="userName" type="String"></column>
+		<column name="createDate" type="Date"></column>
+		<column name="modifiedDate" type="Date"></column>
+        <column name="pkgName" type="String" primary="true"></column>
+        <column name="pkgVersion" type="String" primary="true"></column>
+        <column name="sysArch" type="String"></column>
+        <column name="installMethod" type="String"></column>
+        <column name="installPath" type="String"></column>
+	</entity>
+</service-builder>

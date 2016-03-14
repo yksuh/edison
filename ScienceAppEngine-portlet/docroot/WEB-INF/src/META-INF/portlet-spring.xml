@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean id="com.kisti.scienceappstore.service.CommonLibraryLocalService" class="com.kisti.scienceappstore.service.impl.CommonLibraryLocalServiceImpl" />
+	<bean id="com.kisti.scienceappstore.service.CommonLibraryService" class="com.kisti.scienceappstore.service.impl.CommonLibraryServiceImpl" />
+	<bean id="com.kisti.scienceappstore.service.persistence.CommonLibraryPersistence" class="com.kisti.scienceappstore.service.persistence.CommonLibraryPersistenceImpl" parent="basePersistence" />
+	<bean id="com.kisti.scienceappstore.service.CommonModuleLocalService" class="com.kisti.scienceappstore.service.impl.CommonModuleLocalServiceImpl" />
+	<bean id="com.kisti.scienceappstore.service.CommonModuleService" class="com.kisti.scienceappstore.service.impl.CommonModuleServiceImpl" />
+	<bean id="com.kisti.scienceappstore.service.persistence.CommonModulePersistence" class="com.kisti.scienceappstore.service.persistence.CommonModulePersistenceImpl" parent="basePersistence" />
+	<bean id="com.kisti.scienceappstore.service.CommonPackageLocalService" class="com.kisti.scienceappstore.service.impl.CommonPackageLocalServiceImpl" />
+	<bean id="com.kisti.scienceappstore.service.CommonPackageService" class="com.kisti.scienceappstore.service.impl.CommonPackageServiceImpl" />
+	<bean id="com.kisti.scienceappstore.service.persistence.CommonPackagePersistence" class="com.kisti.scienceappstore.service.persistence.CommonPackagePersistenceImpl" parent="basePersistence" />
+</beans>

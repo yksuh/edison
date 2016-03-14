@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd">
+	<persistence-unit-metadata>
+		<xml-mapping-metadata-complete/>
+		<persistence-unit-defaults>
+			<access>PROPERTY</access>
+		</persistence-unit-defaults>
+	</persistence-unit-metadata>
+	<mapped-superclass class="com.kisti.scienceappstore.model.impl.CommonLibraryModelImpl">
+		<id-class class="com.kisti.scienceappstore.service.persistence.CommonLibraryPK" />
+		<attributes>
+			<id name="libName" />
+			<id name="sysArch" />
+			<basic name="groupId" />
+			<basic name="companyId" />
+			<basic name="userId" />
+			<basic name="userName" />
+			<basic name="createDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="modifiedDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="cLibVer" />
+			<basic name="kernelVer" />
+			<basic name="libPath" />
+			<transient name="CLibVer" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+			<transient name="userUuid" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.kisti.scienceappstore.model.impl.CommonModuleModelImpl">
+		<attributes>
+			<id name="moduleName" />
+			<basic name="groupId" />
+			<basic name="companyId" />
+			<basic name="userId" />
+			<basic name="userName" />
+			<basic name="createDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="modifiedDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="moduleRootDir" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+			<transient name="userUuid" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.kisti.scienceappstore.model.impl.CommonPackageModelImpl">
+		<id-class class="com.kisti.scienceappstore.service.persistence.CommonPackagePK" />
+		<attributes>
+			<id name="pkgName" />
+			<id name="pkgVersion" />
+			<basic name="groupId" />
+			<basic name="companyId" />
+			<basic name="userId" />
+			<basic name="userName" />
+			<basic name="createDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="modifiedDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="sysArch" />
+			<basic name="installMethod" />
+			<basic name="installPath" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+			<transient name="userUuid" />
+		</attributes>
+	</mapped-superclass>
+	<entity class="com.kisti.scienceappstore.model.impl.CommonLibraryImpl" name="CommonLibrary">
+		<table name="EDAPP_CommonLibrary" />
+		<attributes />
+	</entity>
+	<entity class="com.kisti.scienceappstore.model.impl.CommonModuleImpl" name="CommonModule">
+		<table name="EDAPP_CommonModule" />
+		<attributes />
+	</entity>
+	<entity class="com.kisti.scienceappstore.model.impl.CommonPackageImpl" name="CommonPackage">
+		<table name="EDAPP_CommonPackage" />
+		<attributes />
+	</entity>
+</entity-mappings>

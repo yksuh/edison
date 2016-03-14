@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.kisti.scienceappstore.model.CommonLibrary">
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="libName" type="String" />
+		<field name="cLibVer" type="String" />
+		<field name="sysArch" type="String" />
+		<field name="kernelVer" type="String" />
+		<field name="libPath" type="String" />
+	</model>
+	<model name="com.kisti.scienceappstore.model.CommonModule">
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="moduleName" type="String" />
+		<field name="moduleRootDir" type="String" />
+	</model>
+	<model name="com.kisti.scienceappstore.model.CommonPackage">
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="pkgName" type="String" />
+		<field name="pkgVersion" type="String" />
+		<field name="sysArch" type="String" />
+		<field name="installMethod" type="String" />
+		<field name="installPath" type="String" />
+	</model>
+</model-hints>

@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="false" auto-import="false">
+	<import class="com.kisti.scienceappstore.model.CommonLibrary" />
+	<import class="com.kisti.scienceappstore.model.CommonModule" />
+	<import class="com.kisti.scienceappstore.model.CommonPackage" />
+	<class name="com.kisti.scienceappstore.model.impl.CommonLibraryImpl" table="EDAPP_CommonLibrary">
+		<cache usage="read-write" />
+		<composite-id name="primaryKey" class="com.kisti.scienceappstore.service.persistence.CommonLibraryPK">
+			<key-property name="libName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+			<key-property name="sysArch" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		</composite-id>
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="cLibVer" access="com.liferay.portal.dao.orm.hibernate.CamelCasePropertyAccessor" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="kernelVer" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="libPath" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.kisti.scienceappstore.model.impl.CommonModuleImpl" table="EDAPP_CommonModule">
+		<cache usage="read-write" />
+		<id name="moduleName" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="moduleRootDir" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.kisti.scienceappstore.model.impl.CommonPackageImpl" table="EDAPP_CommonPackage">
+		<cache usage="read-write" />
+		<composite-id name="primaryKey" class="com.kisti.scienceappstore.service.persistence.CommonPackagePK">
+			<key-property name="pkgName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+			<key-property name="pkgVersion" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		</composite-id>
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="sysArch" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="installMethod" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="installPath" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+</hibernate-mapping>
